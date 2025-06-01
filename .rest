@@ -2,6 +2,10 @@
 GET http://localhost:3000/api/recipes
 Content-Type: application/json
 
+### Get a recipe by ID (replace :id with actual ID)
+GET http://localhost:3000/api/recipes/6832aeb86f3fe3ce34501fb7
+Content-Type: application/json
+
 ### Create a new recipe
 POST http://localhost:3000/api/recipes
 Content-Type: application/json
@@ -16,6 +20,127 @@ Content-Type: application/json
     "author": "Vilate"
 }
 
-### Create future route for updating recipe
+### updating recipe
 
-### Create route for deleting recipe
+PUT http://localhost:3000/api/recipes/6832aeb86f3fe3ce34501fb7
+Content-Type: application/json
+
+{
+    "title": "Updated Cookie Recipe",
+    "ingredients": ["1 cup brown sugar", "2 cups flour", "1.5 cups chocolate chips", "2 eggs"],
+    "instructions": "Mix and bake at 375°F for 10 minutes.",
+    "prepTime": 10,
+    "cookTime": 10,
+    "servings": 20,
+    "author": "Vilate"
+}
+
+### deleting recipe
+DELETE http://localhost:3000/api/recipes/6832aeb86f3fe3ce34501fb7
+Content-Type: application/json
+
+### render testing routes
+
+### Get all recipes - render
+GET https://cse341-recipesite.onrender.com/api/recipes
+Content-Type: application/json
+
+### Get a recipe by ID - render (replace :id)
+GET https://cse341-recipesite.onrender.com/api/recipes/REPLACE_WITH_RECIPE_ID
+Content-Type: application/json
+
+### Create a new recipe - render
+POST https://cse341-recipesite.onrender.com/api/recipes
+Content-Type: application/json
+
+{
+    "title": "Lemon Bars",
+    "ingredients": ["2 cups sugar", "1 cup flour", "1/2 cup lemon juice", "3 eggs"],
+    "instructions": "Mix and bake at 325°F for 20 minutes.",
+    "prepTime": 10,
+    "cookTime": 20,
+    "servings": 12,
+    "author": "Vilate"
+}
+
+### Update a recipe - render (replace :id)
+PUT https://cse341-recipesite.onrender.com/api/recipes/REPLACE_WITH_RECIPE_ID
+Content-Type: application/json
+
+{
+    "title": "Updated Lemon Bars",
+    "ingredients": ["2 cups sugar", "1 cup flour", "3/4 cup lemon juice", "3 eggs"],
+    "instructions": "Mix and bake at 350°F for 25 minutes.",
+    "prepTime": 12,
+    "cookTime": 25,
+    "servings": 16,
+    "author": "Vilate"
+}
+
+### Delete a recipe - render (replace :id)
+DELETE https://cse341-recipesite.onrender.com/api/recipes/REPLACE_WITH_RECIPE_ID
+Content-Type: application/json
+
+
+
+### === VALIDATION TEST CASES ===
+
+### ❌ Test Missing Required Field (title)
+POST http://localhost:3000/api/recipes
+Content-Type: application/json
+
+{
+    "ingredients": ["2 cups sugar", "1 egg"],
+    "instructions": "Mix and bake.",
+    "prepTime": 5,
+    "cookTime": 15,
+    "servings": 4,
+    "author": "Vilate"
+}
+
+###
+
+### ❌ Test Invalid Data Type (prepTime as string)
+POST http://localhost:3000/api/recipes
+Content-Type: application/json
+
+{
+    "title": "Bad Recipe",
+    "ingredients": ["1 weird thing"],
+    "instructions": "Hope it works.",
+    "prepTime": "ten minutes",
+    "cookTime": 10,
+    "servings": 2,
+    "author": "Vilate"
+}
+
+###
+
+### ❌ Test Empty Ingredients Array
+POST http://localhost:3000/api/recipes
+Content-Type: application/json
+
+{
+    "title": "Empty Ingredients",
+    "ingredients": [],
+    "instructions": "No ingredients, but still cooking?",
+    "prepTime": 5,
+    "cookTime": 10,
+    "servings": 1,
+    "author": "Vilate"
+}
+
+###
+
+### ❌ Test Missing Instructions
+POST http://localhost:3000/api/recipes
+Content-Type: application/json
+
+{
+    "title": "Mystery Dish",
+    "ingredients": ["1 cup something"],
+    "prepTime": 5,
+    "cookTime": 10,
+    "servings": 2,
+    "author": "Vilate"
+}
