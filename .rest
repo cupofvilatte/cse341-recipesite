@@ -144,3 +144,15 @@ Content-Type: application/json
     "servings": 2,
     "author": "Vilate"
 }
+
+
+
+### Test route errors
+
+### Test 404 - Not Found
+GET http://localhost:3000/api/recipes/non-existent-route
+Accept: application/json
+
+### Test 500 - Simulated Server Error
+GET http://localhost:3000/api/recipes/test/server-error
+Accept: application/json

@@ -125,4 +125,10 @@ router.get('/:id', recipeController.getRecipeById);
 router.put('/:id', validateRecipe, handleValidationErrors, recipeController.updateRecipe);
 router.delete('/:id', recipeController.deleteRecipe);
 
+// Route to simulate 500 error
+router.get('/test/server-error', (req, res, next) => {
+    throw new Error('Simulated server error');
+});
+
+
 module.exports = router;

@@ -25,5 +25,17 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
+// 404 Not Found Handler
+app.use((req, res, next) => {
+    res.status(404).json({ error: 'Route not found' });
+});
+
+// 500 Internal Server Error Handler
+app.use((err, req, res, next) => {
+    console.error(err.stack); // Log error for debugging
+    res.status(500).json({ error: 'Internal Server Error' });
+});
+
+
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

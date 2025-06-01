@@ -29,6 +29,9 @@ exports.getRecipeById = async (req, res) => {
         if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
         res.status(200).json(recipe);
     } catch (err) {
+        if (err.name === 'CastError') {
+            return res.status(400).json({ message: 'Invalid recipe ID'});
+        }
         res.status(500).json({ message: 'Error fetching recipe', error: err });
     }
 };
