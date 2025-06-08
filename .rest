@@ -3,7 +3,7 @@ GET http://localhost:3000/api/recipes
 Content-Type: application/json
 
 ### Get a recipe by ID (replace :id with actual ID)
-GET http://localhost:3000/api/recipes/6832aeb86f3fe3ce34501fb7
+GET http://localhost:3000/api/recipes/683291d072b2e9185d51be27
 Content-Type: application/json
 
 ### Create a new recipe
@@ -22,7 +22,7 @@ Content-Type: application/json
 
 ### updating recipe
 
-PUT http://localhost:3000/api/recipes/6832aeb86f3fe3ce34501fb7
+PUT http://localhost:3000/api/recipes/683be966ee79b7d5adc9b747
 Content-Type: application/json
 
 {
@@ -36,7 +36,7 @@ Content-Type: application/json
 }
 
 ### deleting recipe
-DELETE http://localhost:3000/api/recipes/6832aeb86f3fe3ce34501fb7
+DELETE http://localhost:3000/api/recipes/683be966ee79b7d5adc9b747
 Content-Type: application/json
 
 ### render testing routes
