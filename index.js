@@ -9,6 +9,7 @@ const cors = require('cors');
 
 const connectDB = require('./config/db');
 const recipeRoutes = require('./routes/recipeRoutes');
+const authRoutes = require('./auth/routes');
 
 require('./auth/passport');
 
@@ -48,24 +49,7 @@ app.get('/', (req, res) => {
     }
 });
 
-
-app.get(
-    '/auth/google',
-    passport.authenticate('google', { scope: ['profile', 'email'] })
-);
-
-app.get('/auth/google/callback',
-    passport.authenticate('google', {
-        failureRedirect: '/',
-        successRedirect: '/',
-    })
-);
-
-app.get('/logout', (req, res) => {
-    req.logout(() => {
-        res.redirect('/');
-    });
-});
+app.use('/auth', authRoutes);
 
 // 404 Not Found Handler
 app.use((req, res, next) => {
