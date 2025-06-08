@@ -2,17 +2,32 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
+const session = require('express-session');
+const passport = require('passport');
+
 const cors = require('cors');
 
 const connectDB = require('./config/db');
 const recipeRoutes = require('./routes/recipeRoutes');
 
+require('./auth/passport');
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 connectDB();
+
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+    })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(cors());
 app.use(express.json());
@@ -24,6 +39,33 @@ app.use('/api/recipes', recipeRoutes);
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-output.json');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
+app.get('/', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.send(`Welcome, ${req.user.displayName}! <a href="/logout">Logout</a>`);
+    } else {
+        res.send('<a href="/auth/google">Login with Google</a>');
+    }
+});
+
+
+app.get(
+    '/auth/google',
+    passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+app.get('/auth/google/callback',
+    passport.authenticate('google', {
+        failureRedirect: '/',
+        successRedirect: '/',
+    })
+);
+
+app.get('/logout', (req, res) => {
+    req.logout(() => {
+        res.redirect('/');
+    });
+});
 
 // 404 Not Found Handler
 app.use((req, res, next) => {
