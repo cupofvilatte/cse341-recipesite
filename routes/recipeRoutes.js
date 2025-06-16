@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const recipeController = require('../controllers/recipeController');
+const { ensureAuth } = require('../middleware/ensureAuth');
 
 // Validation rules for POST and PUT
 const validateRecipe = [
@@ -120,10 +121,13 @@ const handleValidationErrors = (req, res, next) => {
 
 // Routes
 router.get('/', recipeController.getAllRecipes);
-router.post('/', validateRecipe, handleValidationErrors, recipeController.createRecipe);
+router.post('/', ensureAuth, validateRecipe, handleValidationErrors, recipeController.createRecipe);
+
 router.get('/:id', recipeController.getRecipeById);
 router.put('/:id', validateRecipe, handleValidationErrors, recipeController.updateRecipe);
 router.delete('/:id', recipeController.deleteRecipe);
+
+router.get('/mine', ensureAuth, recipeController.getUserRecipes);
 
 // Route to simulate 500 error
 router.get('/test/server-error', (req, res, next) => {

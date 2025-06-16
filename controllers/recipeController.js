@@ -12,14 +12,19 @@ exports.getAllRecipes = async (req, res) => {
 
 // POST a new recipe
 exports.createRecipe = async (req, res) => {
-    const recipe = new Recipe(req.body);
     try {
-        const newRecipe = await recipe.save();
+        const newRecipe = new Recipe({
+            ...req.body,
+            user: req.user._id,
+        });
+
+        await newRecipe.save();
         res.status(201).json(newRecipe);
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.status(400).json({ error: 'Failed to create recipe' });
     }
 };
+
 
 
 // GET recipe by ID
@@ -55,5 +60,14 @@ exports.deleteRecipe = async (req, res) => {
         res.status(200).json({ message: 'Recipe deleted' });
     } catch (err) {
         res.status(500).json({ message: 'Failed to delete', error: err });
+    }
+};
+
+exports.getUserRecipes = async (req, res) => {
+    try {
+        const recipes = await Recipe.find({ user: req.user._id });
+        res.json(recipes);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch user recipes' });
     }
 };
