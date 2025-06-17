@@ -6,4 +6,4 @@ function ensureAuth(req, res, next) {
     }
 }
 
-module.exports = ensureAuth;
+module.exports = { ensureAuth };
