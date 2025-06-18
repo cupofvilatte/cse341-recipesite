@@ -6,7 +6,10 @@ const router = express.Router();
 // Start the Google OAuth login process
 router.get(
     '/google',
-    passport.authenticate('google', { scope: ['profile', 'email'] })
+    passport.authenticate('google', {
+        scope: ['profile', 'email'],
+        prompt: 'select_account',
+    })
 );
 
 // Handle Google callback after login
@@ -14,14 +17,19 @@ router.get(
     '/google/callback',
     passport.authenticate('google', {
         failureRedirect: '/',
-        successRedirect: '/', // you can customize this later
+        successRedirect: '/',
     })
 );
 
 // Logout route
-router.get('/logout', (req, res) => {
-    req.logout(() => {
-        res.redirect('/');
+router.get('/logout', (req, res, next) => {
+    req.logout(function (err) {
+        if (err) {
+            return next(err);
+        }
+        req.session.destroy(() => {
+            res.redirect('/');
+        });
     });
 });
 
