@@ -47,7 +47,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.get('/', (req, res) => {
     if (req.isAuthenticated()) {
-        res.send(`Welcome, ${req.user.displayName}! <a href="/logout">Logout</a>`);
+        res.send(`Welcome, ${req.user.displayName}! <a href="/auth/logout">Logout</a>`);
     } else {
         res.send('<a href="/auth/google">Login with Google</a>');
     }
