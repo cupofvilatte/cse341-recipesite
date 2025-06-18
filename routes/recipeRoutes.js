@@ -127,6 +127,19 @@ router.get('/:id', recipeController.getRecipeById);
 router.put('/:id', validateRecipe, handleValidationErrors, recipeController.updateRecipe);
 router.delete('/:id', recipeController.deleteRecipe);
 
+/**
+ * @swagger
+ * /api/recipes/mine:
+ *   get:
+ *     summary: Get recipes created by the authenticated user
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: List of user's recipes
+ *       401:
+ *         description: Unauthorized
+ */
 router.get('/mine', ensureAuth, recipeController.getUserRecipes);
 
 // Route to simulate 500 error
